@@ -1,0 +1,17 @@
+.header{
+    border: 1px solid red;
+    margin: 10px 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header_Input{
+    margin: 0 5px !important;
+    width: 20% !important;
+}
+
+.header_Button{
+    margin-left: 20px;
+}

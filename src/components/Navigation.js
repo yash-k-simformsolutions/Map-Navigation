@@ -1,41 +1,31 @@
 import React, { Component } from 'react';
 import './Navigation.css';
-import { MapContainer, TileLayer, Polyline, Marker } from 'react-leaflet';
-
 export default class Navigation extends Component {
-    state = {
-        resultData: null,
+
+    componentDidMount(){
+        this.displayMap();
     }
 
-    storeinState = () => {
-        this.setState({
-            resultData: this.props.searchResult,
-        })
-        console.long(this.state.resultData)
+    displayMap = () => {
+        const script = document.createElement('script')
+        script.src = process.env.PUBLIC_URL + '/sdk/tomtom.min.js';
+        document.body.appendChild(script);
+        script.async = true;
+        script.onload = () => {
+            window.tomtom.L.map('map', {
+                source: 'vector',
+                key: 'aYHki4CsTAmcezV1KW5fFqdumSH0zkC5',
+                center: [22.3, 70.78],
+                basePath: '/sdk',
+                zoom: 15
+            });
+        }
     }
 
     render() {
-        const startPosition = [22.3039,70.8022]; 
-        const endPosition = [22.292199,70.781534]
-        
         return (
             <div className="navigation">
-                <div id="map">
-                    <MapContainer center={startPosition} zoom={14} scrollWheelZoom={false}>
-                        <TileLayer
-                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Polyline positions={[ 
-                            [22.3039,70.8022],
-                            [22.292199,70.781534]
-                        ]} 
-                        color={'red'}
-                        />
-                        <Marker position={startPosition} />
-                        <Marker position={endPosition} />
-                    </MapContainer>
-                </div>
+                <div id="map"></div>
             </div>
         )
     }
