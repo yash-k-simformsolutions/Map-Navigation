@@ -86,13 +86,15 @@ export default class SideBar extends Component {
     }
     
     handleClick = () => {
+        console.log(this.state.sourceData?.results[this.state.sourceIndex]?.position?.lat)
+        console.log(this.state.sourceData?.results[this.state.sourceIndex]?.position?.lon)
         this.setState({
             sourceStartPosition: this.state.sourceData?.results[this.state.sourceIndex]?.position?.lat,
             sourceEndPosition: this.state.sourceData?.results[this.state.sourceIndex]?.position?.lon,
             destinationStartPosition: this.state.destinationData?.results[this.state.destinationIndex]?.position?.lat,
             destinationEndPosition: this.state.destinationData?.results[this.state.destinationIndex]?.position?.lon,
         }, () => {
-            this.props.getPositions(this.state.sourceStartPosition,this.state.sourceEndPosition, this.state.destinationStartPosition, this.state.destinationEndPosition)
+            this.props.getPositions(this.state.sourceStartPosition, this.state.sourceEndPosition, this.state.destinationStartPosition, this.state.destinationEndPosition)
         })
         console.log(this.state.sourceData)
         console.log(this.state.sourceData?.results[this.state.sourceIndex]?.position?.lat)
