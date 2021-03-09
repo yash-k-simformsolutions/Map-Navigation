@@ -21,6 +21,10 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <!-- <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/plugins/DrawingTools/v6/DrawingTools.css'> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
     <title>React App</title>
   </head>
   <body>
@@ -36,13 +40,14 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/v6/maps/maps-web.min.js'></script>
+    <!-- <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/v6/maps/maps-web.min.js'></script>
       <script>
       tt.setProductInfo('Map-Navigation', 'v6');
       tt.map({
           key: 'aYHki4CsTAmcezV1KW5fFqdumSH0zkC5',
           container: 'map'
       });
-      </script>
+      </script> -->
+      <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.1.2-public-preview.15/services/services-web.min.js"></script>  
   </body>
 </html>

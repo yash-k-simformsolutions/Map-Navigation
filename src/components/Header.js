@@ -1,103 +1,96 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './Header.css';
 import { Button, Dropdown, Input } from 'antd';
 import axios from 'axios';
 import { Menu } from 'antd';
 
-export default class SideBar extends Component {
-    state = {
-        source: null,
-        sourceData: null,
-        destination: null,
-        destinationData: null,
-        sourceIndex: null,
-        destinationIndex: null,
-        sourceStartPosition: null,
-        sourceEndPosition: null,
-        destinationStartPosition: null,
-        destinationEndPosition: null,
+export default function Header(props) {
+    const [source, setSource] = useState(null);
+    const [destination, setDestination] = useState(null);
+    const [sourceData, setSourceData] = useState(null);
+    const [destinationData, setDestinationData] = useState(null);
+    const [sourceIndex, setSourceIndex] = useState(null);
+    const [destinationIndex, setDestinationIndex] = useState(null);
+    const [sourceStartPosition, setSourceStartPosition] = useState(null);
+    const [sourceEndPosition, setSourceEndPosition] = useState(null);
+    const [destinationStartPosition, setDestinationStartPosition] = useState(null);
+    const [destinationEndPosition, setDestinationEndPosition] = useState(null);
+    
+    const getSource = (e) => {
+        setSource(e.target.value)
+        sourceAutoSuggestion(source)
     }
 
-    getSource = (e) => {
-        this.setState({
-            source: e.target.value,
-        }, () => {
-            this.sourceAutoSuggestion(this.state.source)
-        })
+    const getDestination = (e) => {
+        setDestination(e.target.value)
+        destinationAutoSuggestion(destination)
     }
 
-    getDestination = (e) => {
-        this.setState({
-            destination: e.target.value,
-        }, () => {
-            this.destinationAutoSuggestion(this.state.destination)
-        })
-    }
-
-    sourceAutoSuggestion = async (location) => {
+    const sourceAutoSuggestion = async (location) => {
         const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=aYHki4CsTAmcezV1KW5fFqdumSH0zkC5`;
         try{
           const response = await axios.get(url);
           const responseData = await response.data; 
-          this.setState({
-              sourceData: responseData
-          })
-          console.log(this.state.sourceData)
+          setSourceData(responseData)
+          console.log(sourceData)
         } catch(error){
           console.log(error)
         }
     }
 
-    destinationAutoSuggestion = async (location) => {
+    const destinationAutoSuggestion = async (location) => {
         const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=aYHki4CsTAmcezV1KW5fFqdumSH0zkC5`;
         try{
           const response = await axios.get(url);
           const responseData = await response.data; 
-          this.setState({
-            destinationData: responseData,
-          })
-        console.log(this.state.destinationData)
+          setDestinationData(responseData)
+          console.log(destinationData)
         } catch(error){
           console.log(error)
         }
     }
 
-    changeSource = (e) => {
+    const changeSource = (e) => {
         let result = e.item?.props?.children[1];
         let index = e.item?.props?.index;
-        this.setState({
-            sourceIndex: index,
-            source: result,
-        })
+        setSourceIndex(index);
+        setSource(result);
+        setSourceStartPosition(sourceData?.results[sourceIndex]?.position?.lat)
+        setSourceEndPosition(sourceData?.results[sourceIndex]?.position?.lon)
         console.log(e.item?.props?.index)
-        console.log(this.state.source)
-        console.log(this.state.sourceIndex)
+        console.log(source)
+        console.log(sourceIndex)
     }
     
-    changeDestination = (e) => {
+    const changeDestination = (e) => {
         let result = e.item?.props?.children[1];
         let index = e.item?.props?.index;
-        this.setState({
-            destination: result,
-            destinationIndex: index,
-        })
-        console.log(this.state.destination)
-        console.log(this.state.destinationIndex)
+        setDestinationIndex(index);
+        setDestination(result);
+        setDestinationStartPosition(destinationData?.results[destinationIndex]?.position?.lat)
+        setDestinationEndPosition(destinationData?.results[destinationIndex]?.position?.lon)
+        console.log(destination)
+        console.log(destinationIndex)
     }
     
-    handleClick = () => {
-        console.log(this.state.sourceData?.results[this.state.sourceIndex]?.position?.lat)
-        console.log(this.state.sourceData?.results[this.state.sourceIndex]?.position?.lon)
-        this.setState({
-            sourceStartPosition: this.state.sourceData?.results[this.state.sourceIndex]?.position?.lat,
-            sourceEndPosition: this.state.sourceData?.results[this.state.sourceIndex]?.position?.lon,
-            destinationStartPosition: this.state.destinationData?.results[this.state.destinationIndex]?.position?.lat,
-            destinationEndPosition: this.state.destinationData?.results[this.state.destinationIndex]?.position?.lon,
-        }, () => {
-            this.props.getPositions(this.state.sourceStartPosition, this.state.sourceEndPosition, this.state.destinationStartPosition, this.state.destinationEndPosition)
-        })
-        console.log(this.state.sourceData)
-        console.log(this.state.sourceData?.results[this.state.sourceIndex]?.position?.lat)
+    console.log(sourceData?.results[sourceIndex]?.position?.lat)
+    console.log(sourceData?.results[sourceIndex]?.position?.lon)
+    console.log(destinationData?.results[destinationIndex]?.position?.lat)
+    console.log(destinationData?.results[destinationIndex]?.position?.lon)
+
+    console.log(sourceStartPosition) 
+    console.log(sourceEndPosition)
+    console.log(destinationStartPosition)
+    console.log(destinationEndPosition)
+
+    const handleClick = () => {
+        props.getPositions(sourceStartPosition, sourceEndPosition, destinationStartPosition, destinationEndPosition)
+        console.log(sourceStartPosition) 
+        console.log(sourceEndPosition)
+        console.log(destinationStartPosition)
+        console.log(destinationEndPosition)
+        console.log(sourceData)
+        console.log(sourceData?.results[sourceIndex]?.position?.lat)
         // console.log(this.state.sourceIndex)
         // console.log(this.state.destinationIndex)
         // console.log(this.state.sourceStartPosition)
@@ -106,64 +99,62 @@ export default class SideBar extends Component {
         // console.log(this.state.destinationEndPosition)
     }
     
-    render() {
-        const { destination } = this.state;
-        // console.log(this.state.sourceIndex)
-        
-        const sourceMenu = (
-            <Menu>
-                {
-                    this.state.sourceData?.results.map((result) => (
-                        <Menu.Item onClick={this.changeSource}>
-                            {result?.address?.freeformAddress}
-                        </Menu.Item>
-                    ))
-                }
-            </Menu>
-        )
+    // const { destination } = this.state;
+    // console.log(this.state.sourceIndex)
+    
+    const sourceMenu = (
+        <Menu>
+            {
+                sourceData?.results.map((result) => (
+                    <Menu.Item onClick={changeSource}>
+                        {result?.address?.freeformAddress}
+                    </Menu.Item>
+                ))
+            }
+        </Menu>
+    )
 
-        const destinationMenu = (
-            <Menu>
-                {
-                    this.state.destinationData?.results.map((result) => (
-                        <Menu.Item onClick={this.changeDestination}>
-                            {result?.address?.freeformAddress}
-                        </Menu.Item>
-                    ))
-                }
-            </Menu>
-        )
+    const destinationMenu = (
+        <Menu>
+            {
+                destinationData?.results.map((result) => (
+                    <Menu.Item onClick={changeDestination}>
+                        {result?.address?.freeformAddress}
+                    </Menu.Item>
+                ))
+            }
+        </Menu>
+    )
 
-        return (
-            <header className="header">
-                    <Dropdown
-                        overlay={sourceMenu}
-                        placement="bottomCenter"
-                        arrow
-                    >
-                        <Input 
-                            placeholder="Enter Source" 
-                            className="header_Input" 
-                            value={this.state.source}
-                            name="source"
-                            onChange={this.getSource}
-                        />
-                    </Dropdown>
-                    <Dropdown
-                        overlay={destinationMenu}
-                        placement="bottomCenter"
-                        arrow
-                    >
-                        <Input 
-                            placeholder="Enter Destination" 
-                            className="header_Input" 
-                            value={destination}
-                            name="destination"
-                            onChange={this.getDestination}
-                        />
-                    </Dropdown>
-                <Button type="primary" className="header_Button" onClick={this.handleClick} >Get Route</Button>
-            </header>
-        )
-    }
+    return (
+        <header className="header">
+                <Dropdown
+                    overlay={sourceMenu}
+                    placement="bottomCenter"
+                    arrow
+                >
+                    <Input 
+                        placeholder="Enter Source" 
+                        className="header_Input" 
+                        value={source}
+                        name="source"
+                        onChange={getSource}
+                    />
+                </Dropdown>
+                <Dropdown
+                    overlay={destinationMenu}
+                    placement="bottomCenter"
+                    arrow
+                >
+                    <Input 
+                        placeholder="Enter Destination" 
+                        className="header_Input" 
+                        value={destination}
+                        name="destination"
+                        onChange={getDestination}
+                    />
+                </Dropdown>
+            <Button type="primary" className="header_Button" onClick={handleClick} >Get Route</Button>
+        </header>
+    )
 }
