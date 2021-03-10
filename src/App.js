@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Navigation from './components/Navigation';
 import axios from 'axios';
 import Header from './components/Header';
 import 'antd/dist/antd.css';
 import RouteInfo from './components/RouteInfo';
-import { useMapEvents } from 'react-leaflet';
+import { useMapEvent } from 'react-leaflet';
 
 function App() {
   const [sourceStartPosition, setSourceStartPosition] = useState(null);
@@ -15,8 +15,12 @@ function App() {
   const [source, setSource] = useState(null);
   const [destination, setDestination] = useState(null);
   const [routeData, setRouteData] = useState(null);
-  const [distance, setDistance] = useState(`0 meters`);
-  const [time, setTime] = useState(`0 seconds`);
+  const [distance, setDistance] = useState(0);
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    getRoutePoints()
+  })
 
   const getPositions = (sourceStart, sourceEnd, destinationStart, destinationEnd) => {
     setSourceStartPosition(sourceStart);
@@ -25,16 +29,14 @@ function App() {
     setDestinationEndPosition(destinationEnd);
     setSource([sourceStart, sourceEnd]);
     setDestination([destinationStart, destinationEnd])
-    getRoutePoints();
+    // getRoutePoints();
   }
   
   console.log(sourceStartPosition, sourceEndPosition, destinationStartPosition, destinationEndPosition);
 
   const LocateMap = () => {
-    const map = useMapEvents({
-      locationfound(source){
-        map.flyTo(source, map.getZoom())
-      }
+    const map = useMapEvent('locationfound', (source) => {
+      map.flyTo(source, map.getZoom())
     })
   }
 
@@ -42,11 +44,12 @@ function App() {
     var points = routeData?.routes[0]?.legs[0]?.points.map((coordinate) => {
       return [coordinate.latitude, coordinate.longitude]
     })
+    console.log(points)
     return points;
   }
 
   const getRoutePoints = async () => {
-    const url = `https://api.tomtom.com/routing/1/calculateRoute/${sourceStartPosition},${sourceEndPosition}:${destinationStartPosition},${destinationEndPosition}/json?avoid=unpavedRoads&travelMode=car&key=aYHki4CsTAmcezV1KW5fFqdumSH0zkC5`
+    const url = `https://api.tomtom.com/routing/1/calculateRoute/${sourceStartPosition},${sourceEndPosition}:${destinationStartPosition},${destinationEndPosition}/json?travelMode=car&key=FkQnsdmD8hOSrfACM4V2hNYSLbSAPnMG`
     // const url = "https://api.tomtom.com/routing/1/calculateRoute/22.28216,70.75416:22.27645,70.75791/json?avoid=unpavedRoads&travelMode=bicycle&key=aYHki4CsTAmcezV1KW5fFqdumSH0zkC5"
     try{
       const response = await axios.get(url);
@@ -66,6 +69,7 @@ function App() {
     <div className="app">
       <Header 
         getPositions={getPositions} 
+        // locateMap={<LocateMap />}
       />
 
       {

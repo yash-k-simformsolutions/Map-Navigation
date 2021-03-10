@@ -27,7 +27,7 @@ export default function Header(props) {
     }
 
     const sourceAutoSuggestion = async (location) => {
-        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=aYHki4CsTAmcezV1KW5fFqdumSH0zkC5`;
+        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=FkQnsdmD8hOSrfACM4V2hNYSLbSAPnMG`;
         try{
           const response = await axios.get(url);
           const responseData = await response.data; 
@@ -39,7 +39,7 @@ export default function Header(props) {
     }
 
     const destinationAutoSuggestion = async (location) => {
-        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=aYHki4CsTAmcezV1KW5fFqdumSH0zkC5`;
+        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=FkQnsdmD8hOSrfACM4V2hNYSLbSAPnMG`;
         try{
           const response = await axios.get(url);
           const responseData = await response.data; 
@@ -55,8 +55,8 @@ export default function Header(props) {
         let index = e.item?.props?.index;
         setSourceIndex(index);
         setSource(result);
-        setSourceStartPosition(sourceData?.results[sourceIndex]?.position?.lat)
-        setSourceEndPosition(sourceData?.results[sourceIndex]?.position?.lon)
+        setSourceStartPosition(sourceData?.results[index]?.position?.lat)
+        setSourceEndPosition(sourceData?.results[index]?.position?.lon)
         console.log(e.item?.props?.index)
         console.log(source)
         console.log(sourceIndex)
@@ -67,16 +67,16 @@ export default function Header(props) {
         let index = e.item?.props?.index;
         setDestinationIndex(index);
         setDestination(result);
-        setDestinationStartPosition(destinationData?.results[destinationIndex]?.position?.lat)
-        setDestinationEndPosition(destinationData?.results[destinationIndex]?.position?.lon)
+        console.log(destinationData, destinationIndex)
+        console.log("Destination " + destinationData?.results[index]?.position?.lon)
+        setDestinationStartPosition(destinationData?.results[index]?.position?.lat)
+        setDestinationEndPosition(destinationData?.results[index]?.position?.lon)
         console.log(destination)
         console.log(destinationIndex)
     }
     
     console.log(sourceData?.results[sourceIndex]?.position?.lat)
     console.log(sourceData?.results[sourceIndex]?.position?.lon)
-    console.log(destinationData?.results[destinationIndex]?.position?.lat)
-    console.log(destinationData?.results[destinationIndex]?.position?.lon)
 
     console.log(sourceStartPosition) 
     console.log(sourceEndPosition)
@@ -84,6 +84,7 @@ export default function Header(props) {
     console.log(destinationEndPosition)
 
     const handleClick = () => {
+        // props.locateMap(sourceStartPosition, sourceEndPosition)
         props.getPositions(sourceStartPosition, sourceEndPosition, destinationStartPosition, destinationEndPosition)
         console.log(sourceStartPosition) 
         console.log(sourceEndPosition)

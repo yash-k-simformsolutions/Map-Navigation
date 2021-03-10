@@ -1,8 +1,8 @@
 import React from 'react';
 import './Navigation.css';
-import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
+import { MapContainer, Marker, Polyline, TileLayer, Popup } from 'react-leaflet';
 
-function Navigation({ displayRoute, source, ...props }) {
+function Navigation({ displayRoute, source, destination, ...props }) {
     console.log(displayRoute())
 
     return (
@@ -16,12 +16,19 @@ function Navigation({ displayRoute, source, ...props }) {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <Marker position={source} />
-                {/* <Marker position={destination} /> */}
+                {
+                    destination && <Marker position={destination} />
+                }
                 {props.LocationMap}
-                <Polyline 
-                    positions={displayRoute} 
-                    color="red"
-                />
+                {
+                    displayRoute() && (<Polyline 
+                        positions={displayRoute()} 
+                        color="blue"
+                    >
+                        <Popup>Polyline</Popup>
+                    </Polyline>)
+                }
+                
             </MapContainer>
         </div>
     )
