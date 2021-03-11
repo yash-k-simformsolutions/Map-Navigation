@@ -5,7 +5,8 @@ import axios from 'axios';
 import Header from './components/Header';
 import 'antd/dist/antd.css';
 import RouteInfo from './components/RouteInfo';
-import { useMapEvent } from 'react-leaflet';
+
+// import { useMap } from 'react-leaflet';
 
 function App() {
   const [sourceStartPosition, setSourceStartPosition] = useState(null);
@@ -29,16 +30,9 @@ function App() {
     setDestinationEndPosition(destinationEnd);
     setSource([sourceStart, sourceEnd]);
     setDestination([destinationStart, destinationEnd])
-    // getRoutePoints();
   }
   
   console.log(sourceStartPosition, sourceEndPosition, destinationStartPosition, destinationEndPosition);
-
-  const LocateMap = () => {
-    const map = useMapEvent('locationfound', (source) => {
-      map.flyTo(source, map.getZoom())
-    })
-  }
 
   const getCoordinates = () => {
     var points = routeData?.routes[0]?.legs[0]?.points.map((coordinate) => {
@@ -49,7 +43,7 @@ function App() {
   }
 
   const getRoutePoints = async () => {
-    const url = `https://api.tomtom.com/routing/1/calculateRoute/${sourceStartPosition},${sourceEndPosition}:${destinationStartPosition},${destinationEndPosition}/json?travelMode=car&key=FkQnsdmD8hOSrfACM4V2hNYSLbSAPnMG`
+    const url = `https://api.tomtom.com/routing/1/calculateRoute/${sourceStartPosition},${sourceEndPosition}:${destinationStartPosition},${destinationEndPosition}/json?travelMode=car&key=iJHosQiMef7hKot3k4jdbAWArJG6347P`
     // const url = "https://api.tomtom.com/routing/1/calculateRoute/22.28216,70.75416:22.27645,70.75791/json?avoid=unpavedRoads&travelMode=bicycle&key=aYHki4CsTAmcezV1KW5fFqdumSH0zkC5"
     try{
       const response = await axios.get(url);
@@ -77,14 +71,13 @@ function App() {
           <Navigation
             displayRoute={ getCoordinates }
             source={position}
-            LocateMap={<LocateMap />}
           />
         ) : (
           <Navigation
             displayRoute={ getCoordinates }
             source={source}
             destination={destination}
-            LocateMap={<LocateMap />}
+            // ChangePosition={<ChangePosition />}
           />
         )
       }

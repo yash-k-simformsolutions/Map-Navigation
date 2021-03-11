@@ -27,7 +27,7 @@ export default function Header(props) {
     }
 
     const sourceAutoSuggestion = async (location) => {
-        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=FkQnsdmD8hOSrfACM4V2hNYSLbSAPnMG`;
+        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=iJHosQiMef7hKot3k4jdbAWArJG6347P`;
         try{
           const response = await axios.get(url);
           const responseData = await response.data; 
@@ -39,7 +39,7 @@ export default function Header(props) {
     }
 
     const destinationAutoSuggestion = async (location) => {
-        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=FkQnsdmD8hOSrfACM4V2hNYSLbSAPnMG`;
+        const url = `https://api.tomtom.com/search/2/search/${location}.json?lat=37.337&lon=-121.89&key=iJHosQiMef7hKot3k4jdbAWArJG6347P`;
         try{
           const response = await axios.get(url);
           const responseData = await response.data; 
