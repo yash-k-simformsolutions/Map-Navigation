@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Navigation.css';
 import { MapContainer, Marker, Polyline, TileLayer, Popup, Tooltip } from 'react-leaflet';
 import ChangePosition from './ChangePosition';
