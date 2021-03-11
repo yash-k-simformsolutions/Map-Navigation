@@ -57,6 +57,9 @@ export default function Header(props) {
         setSource(result);
         setSourceStartPosition(sourceData?.results[index]?.position?.lat)
         setSourceEndPosition(sourceData?.results[index]?.position?.lon)
+        
+        props.sourceFocus(sourceData?.results[index]?.position?.lat, sourceData?.results[index]?.position?.lon)
+        
         console.log(e.item?.props?.index)
         console.log(source)
         console.log(sourceIndex)
@@ -71,6 +74,9 @@ export default function Header(props) {
         console.log("Destination " + destinationData?.results[index]?.position?.lon)
         setDestinationStartPosition(destinationData?.results[index]?.position?.lat)
         setDestinationEndPosition(destinationData?.results[index]?.position?.lon)
+
+        props.destinationFocus(destinationData?.results[index]?.position?.lat, destinationData?.results[index]?.position?.lon)
+        
         console.log(destination)
         console.log(destinationIndex)
     }
@@ -102,13 +108,14 @@ export default function Header(props) {
     
     // const { destination } = this.state;
     // console.log(this.state.sourceIndex)
-    
+
     const sourceMenu = (
         <Menu>
-            {
+            {   
                 sourceData?.results.map((result) => (
                     <Menu.Item onClick={changeSource}>
                         {result?.address?.freeformAddress}
+                        {/* <p>{result?.address?.countrySecondarySubdivision}, {result?.address?.countrySubdivision}</p> */}
                     </Menu.Item>
                 ))
             }

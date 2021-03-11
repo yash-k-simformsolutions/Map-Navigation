@@ -57,12 +57,22 @@ function App() {
     }
   }
 
+  const sourceFocus = ( sourceLat, sourceLng ) => {
+    setSource([sourceLat, sourceLng])
+  }
+
+  const destinationFocus = ( destinationLat, destinationLng ) => {
+    setDestination([destinationLat, destinationLng])
+  }
+
   console.log(routeData)
   const position = [22.28216,70.75416]
   return (
     <div className="app">
       <Header 
         getPositions={getPositions} 
+        sourceFocus={sourceFocus}
+        destinationFocus={destinationFocus}
         // locateMap={<LocateMap />}
       />
 
